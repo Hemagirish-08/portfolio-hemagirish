@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hemagirish — Portfolio</title>
+
+  <!-- Simple, single-file portfolio (HTML + CSS only) -->
+  <style>
+    /* -----------------------
+       Variables & Reset
+       ----------------------- */
+    :root{
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #f59e0b;
+      --muted: #9aa4b2;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+      --max-width: 1100px;
+      --transition: 250ms cubic-bezier(.2,.8,.2,1);
+      --shadow: 0 8px 24px rgba(4, 10, 36, 0.6);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg,#071028 0%, #071b2b 100%);
+      color: #e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:32px 16px;
+      display:flex;justify-content:center;
+    }
+
+    /* Page wrapper */
+    .wrap{
+      width:100%;max-width:var(--max-width);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:20px;padding:28px;box-shadow:var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ffb86b);
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:#08101a;box-shadow:0 6px 18px rgba(245,158,11,0.15);
+    }
+    .brand h1{font-size:1.05rem;letter-spacing:0.4px}
+    nav ul{display:flex;gap:12px;list-style:none}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;transition:var(--transition);font-weight:600}
+    nav a:hover{color:#fff;background:var(--glass);box-shadow:inset 0 -2px 0 rgba(255,255,255,0.02)}
+
+    /* hero / profile area */
+    .profile-wrap{display:flex;align-items:center;gap:28px;margin-top:22px}
+    .profile{
+      flex:1;display:flex;gap:18px;align-items:center;padding:18px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .avatar{
+      width:120px;height:120px;border-radius:16px;overflow:hidden;flex:0 0 120px;border:4px solid rgba(255,255,255,0.04);
+      box-shadow:0 12px 30px rgba(2,6,23,0.5);
+      transition:transform var(--transition), box-shadow var(--transition);
+    }
+    .avatar img{display:block;width:100%;height:100%;object-fit:cover}
+    .avatar:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 24px 40px rgba(2,6,23,0.6)}
+
+    .bio{flex:1}
+    .bio h2{font-size:1.25rem;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.6)}
+    .bio p{color:var(--muted);margin-bottom:10px}
+    .cta{display:flex;gap:10px}
+    .btn{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;text-decoration:none;font-weight:700;cursor:pointer;transition:all var(--transition)}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#ffb86b);color:#08101a;box-shadow:0 8px 22px rgba(245,158,11,0.14)}
+    .btn:hover{transform:translateY(-4px)}
+
+    /* Skills */
+    .skills{margin-top:18px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.03)}
+    .skill{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .skill .label{color:var(--muted);font-weight:700}
+    .progress{
+      height:12px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;flex:1;margin-left:12px;margin-right:12px;border:1px solid rgba(255,255,255,0.02)
+    }
+    .progress > i{display:block;height:100%;width:50%;background:linear-gradient(90deg,var(--accent),#ffd59a);border-radius:999px;box-shadow:0 6px 16px rgba(245,158,11,0.12);transition:width 900ms cubic-bezier(.2,.8,.2,1)}
+    .pct{min-width:44px;text-align:right;color:var(--muted);font-weight:700}
+
+    /* Projects */
+    .section{margin-top:22px}
+    .section h3{margin-bottom:12px}
+    .projects{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 10px 28px rgba(2,6,23,0.45);transition:transform var(--transition), box-shadow var(--transition);
+      display:flex;flex-direction:column;gap:10px;min-height:180px;position:relative;overflow:hidden
+    }
+    .card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(2,6,23,0.6)}
+    .card .thumb{height:120px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+    .card .thumb img{width:100%;height:100%;object-fit:cover}
+    .card h4{font-size:1rem}
+    .card p{color:var(--muted);font-size:0.92rem}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{font-size:0.75rem;padding:6px 8px;background:rgba(255,255,255,0.02);border-radius:999px;border:1px solid rgba(255,255,255,0.02)}
+
+    /* Footer */
+    footer{margin-top:22px;padding:12px;text-align:center;color:var(--muted);font-size:0.92rem}
+
+    /* Text shadows and headings */
+    h2,h3{color:#fff}
+    h3{font-size:1.05rem;text-shadow:0 3px 12px rgba(0,0,0,0.5)}
+
+    /* Responsive - mobile first tweaks */
+    @media (max-width:760px){
+      .profile-wrap{flex-direction:column}
+      .avatar{width:96px;height:96px;flex:0 0 96px}
+      nav ul{display:none}
+      header{align-items:flex-start}
+      .brand h1{font-size:0.98rem}
+      .wrap{padding:18px}
+    }
+
+    /* Larger screens */
+    @media (min-width:900px){
+      .profile-wrap{gap:32px}
+      .profile{padding:24px}
+      .avatar{width:140px;height:140px;flex:0 0 140px;border-radius:16px}
+    }
+
+    /* Utility: set progress widths via classes */
+    .w-95 > i{width:95%}
+    .w-88 > i{width:88%}
+    .w-80 > i{width:80%}
+    .w-75 > i{width:75%}
+    .w-60 > i{width:60%}
+
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <div class="brand">
+        <div class="logo">HM</div>
+        <div>
+          <h1>Hemagirish</h1>
+          <div style="font-size:0.80rem;color:var(--muted)">Developer• Problem solver •Data Scientist & Analyst</a> </div>
+        </div>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Profile + skills in a column on mobile, side-by-side on desktop -->
+    <div class="profile-wrap">
+      <section id="about" class="profile" aria-labelledby="about-heading">
+        <div class="avatar" aria-hidden="false">
+          <!-- Replace this src with your photo -->
+          <img src="https://via.placeholder.com/400x400.png?text=Profile" alt="Profile photo of Hemagirish">
+        </div>
+
+        <div class="bio">
+          <h2 id="about-heading">Hi — I'm Hemagirish</h2>
+          <p>I'm a college student and frontend-focused developer who enjoys building clean, fast interfaces and learning algorithms.</p>
+
+          <div class="cta">
+            <a class="btn primary" href="#projects">See projects</a>
+            <a class="btn" href="#contact">Get in touch</a>
+          </div>
+        </div>
+      </section>
+
+      <aside class="skills" id="skills" aria-labelledby="skill-heading">
+        <h3 id="skill-heading">Skills</h3>
+        <div class="skill">
+          <div class="label">HTML & CSS</div>
+          <div class="progress w-95" aria-hidden="true"><i></i></div>
+          <div class="pct">95%</div>
+        </div>
+        <div class="skill">
+          <div class="label">JavaScript</div>
+          <div class="progress w-88" aria-hidden="true"><i></i></div>
+          <div class="pct">88%</div>
+        </div>
+        <div class="skill">
+          <div class="label">React / UI</div>
+          <div class="progress w-80" aria-hidden="true"><i></i></div>
+          <div class="pct">80%</div>
+        </div>
+        <div class="skill">
+          <div class="label">Algorithms</div>
+          <div class="progress w-75" aria-hidden="true"><i></i></div>
+          <div class="pct">75%</div>
+        </div>
+        <div class="skill">
+          <div class="label">Machine Learning</div>
+          <div class="progress w-60" aria-hidden="true"><i></i></div>
+          <div class="pct">60%</div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Projects -->
+    <section id="projects" class="section" aria-labelledby="proj-heading">
+      <h3 id="proj-heading">Selected Projects</h3>
+      <div class="projects">
+        <article class="card">
+          <div class="thumb"><img src="https://via.placeholder.com/800x400.png?text=Project+1" alt="Screenshot of Project One"></div>
+          <h4>Car Model Identifier (Prototype)</h4>
+          <p>A lightweight image-based classifier that suggests car models from partial photos of vehicle parts. Built for fast inference on mobile browsers.</p>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">TensorFlow.js</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="" alt="Screenshot of Project Two"></div>
+          <h4>Law Mate — Chatbot UI</h4>
+          <p>A polished chatbot UI for legal help with a dark theme, quick reply chips and a mobile-first layout. Designed to look like a modern chat assistant.</p>
+          <div class="tags">
+            <span class="tag">Design</span>
+            <span class="tag">UX</span>
+            <span class="tag">Prototype</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb"><img src="https://via.placeholder.com/800x400.png?text=Project+3" alt="Screenshot of Project Three"></div>
+          <h4>EV Range Predictor</h4>
+          <p>A small research dashboard that predicts EV range using consumption models and weather factors. Interactive charts and scenario testing.</p>
+          <div class="tags">
+            <span class="tag">Data</span>
+            <span class="tag">JS</span>
+            <span class="tag">Charts</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <footer id="contact">
+      <div>Want to collaborate? <strong style="color:var(--accent)">hemagirish@gmail.com</strong></div>
+      <div style="margin-top:8px;color:var(--muted)">© <span id="year">2025</span> Hemagirish. Built with HTML & CSS.</div>
+    </footer>
+
+  </div>
+
+  <script>
+    // small inline script only to set the year — behaviorally harmless and progressive enhancement.
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
